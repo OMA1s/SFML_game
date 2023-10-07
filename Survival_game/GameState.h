@@ -7,6 +7,7 @@
 #include "Enemy.h"
 #include "Projectile.h"
 #include "Map.h"
+#include "EndGameScreen.h"
 
 class GameState : public State
 {
@@ -23,6 +24,7 @@ private:
     std::list<Projectile*> projectiles;
     //TileMap* tileMap;
     Map* gameMap;
+    EndGameScreen* endGameScreen;
 
     //window bounds
     int windowWidth;
@@ -35,6 +37,7 @@ private:
     void initFonts();
     void initEnemy();
     void initProjectile(Projectile*);
+    void initEndScreen();
 
     void updateTime(const float& dt);
     void garbageCollect();
@@ -49,6 +52,7 @@ public:
     void updateInput(const float& dt);
     void updatePlayerInput(const float& dt);
     void updateEnemyInput(const float& dt);
+    void updateEndScreenButtons();
 
     void createProjectile(float x, float y);
     void deleteProjectile();

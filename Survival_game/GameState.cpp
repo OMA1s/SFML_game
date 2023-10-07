@@ -45,6 +45,13 @@ void GameState::initProjectile(Projectile* p)
 	p->findTarget(this->enemies);
 }
 
+void GameState::initEndScreen()
+{
+	this->endGameScreen = new EndGameScreen(*this->window, this->font);
+
+	this->endGameScreen->addButton("QUIT", 800.f, "Quit!");
+}
+
 void GameState::updateTime(const float& dt)
 {
 	//this->timeElapsed += dt;
@@ -73,6 +80,7 @@ GameState::GameState(sf::RenderWindow* _window, std::stack<State*>* _states)
 	this->windowHeight = _window->getSize().y;
 	this->initFonts();
 	this->initTextures();
+	this->initEndScreen();
 	this->initPlayers();
 	this->initEnemy();
 	this->initMap();
@@ -96,6 +104,7 @@ GameState::~GameState()
 		pj = nullptr;
 	}
 	delete this->gameMap;
+	delete this->endGameScreen;
 }
 
 void GameState::createEnemy()
@@ -203,6 +212,12 @@ void GameState::updateEnemyInput(const float& dt)
 	*/
 }
 
+void GameState::updateEndScreenButtons()
+{
+	if (this->endGameScreen->isButtonPressed("QUIT"))
+		this->endState();
+}
+
 void GameState::createProjectile(float x, float y)
 {
 	//int x = this->player->getPosition().x;
@@ -282,12 +297,20 @@ void GameState::update(const float& dt)
 	this->updateInput(dt);
 	this->updateMousePositions();
 	if (!this->player->getDead())
+	{
 		this->updatePlayerInput(dt);
+	}
+	else
+	{
+		this->endGameScreen->update(this->mousePosView);
+		this->updateEndScreenButtons();
+	}
+	this->player->update(dt);
 	this->updateEnemyInput(dt);
 
 	this->updateProjectileInput(dt);
 
-	this->player->update(dt);
+	
 	for (auto const &obj : enemies)
 	{
 		if (obj)
@@ -306,8 +329,10 @@ void GameState::render(sf::RenderTarget* target)
 {
 	if (!target)
 		target = this->window;
-	this->gameMap->render(*target);
-	this->player->render(*target);
+	if (this->gameMap)
+		this->gameMap->render(*target);
+	if (this->player)
+		this->player->render(*target);
 	for (auto const &obj : enemies)
 	{
 		if (obj)
@@ -318,7 +343,10 @@ void GameState::render(sf::RenderTarget* target)
 		if (obj)
 			obj->render(*target);
 	}
-
+	if (this->player->getDead())
+	{
+		this->endGameScreen->render(*target);
+	}
 	
 	//this->enemy->render(*target);
 }

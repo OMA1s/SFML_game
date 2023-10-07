@@ -3,9 +3,9 @@
 
 void InstructionsState::initInstructions()
 {
-	float textBoxWidth = 500.f;
-	float textBoxHeight = 500.f;
-	std::string message = "USE ARROW KEYS TO MOVE.\nPRESS SPACEBAR TO ATTACK.\nSURVIVE AS LONG AS YOU CAN!";
+	float textBoxWidth = 800.f;
+	float textBoxHeight = 300.f;
+	std::string message = "USE ARROW KEYS TO MOVE.\nPRESS LEFT MOUSE CLICK TO ATTACK.\nPRESS ESCAPE TO GO BACK/QUIT\nSURVIVE AS LONG AS YOU CAN!";
 
 	this->textBox.setPosition(sf::Vector2f(100, 100));
 	this->textBox.setSize(sf::Vector2f(textBoxWidth, textBoxHeight));
@@ -20,9 +20,15 @@ void InstructionsState::initInstructions()
 	this->instructionsMessage.setCharacterSize(50);
 
 	//set text in middle
+	/*
 	this->instructionsMessage.setPosition(
 		(this->textBox.getPosition().x + (this->textBox.getGlobalBounds().width / 2.0f)) - (this->instructionsMessage.getGlobalBounds().width / 2.0f),
 		(this->textBox.getPosition().y + (this->textBox.getGlobalBounds().height / 2.0f)) - (this->instructionsMessage.getGlobalBounds().height / 2.0f)
+	);
+	*/
+	this->instructionsMessage.setPosition(
+		(this->textBox.getPosition().x),
+		(this->textBox.getPosition().y)
 	);
 }
 

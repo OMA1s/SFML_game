@@ -39,7 +39,7 @@ Enemy::Enemy(float x, float y, sf::Texture& texture_sheet, objectType _type) : E
 
 Enemy::~Enemy()
 {
-	std::cout << "Enemy destroyed" << std::endl;
+	//std::cout << "Enemy destroyed" << std::endl;
 }
 
 bool Enemy::canAttack()
